@@ -1,18 +1,8 @@
 """ Testing module."""
 
-from war.card import Card
-from war.deck import Deck
+import logging
+
 from war.game import Game
-
-
-def _testing():
-    print("a")
-    card = Card(Card.Figure.Jack, Card.Color.Diamonds)
-    deck = Deck("ME")
-    deck.add_cards(card)
-    card2 = deck.take_next_card()
-    print(card)
-    print(card2)
 
 
 def _test2():
@@ -38,4 +28,11 @@ def _test2():
     print("min {} max {}".format(min(numbers), max(numbers)))
     print("A:{} B:{} U:{}".format(a_wins, b_wins, unfinished))
 
-_test2()
+
+def main():
+    # TODO TIME
+    _test2()
+
+
+if __name__ == "__main__":
+    main()

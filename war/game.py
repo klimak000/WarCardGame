@@ -1,5 +1,6 @@
 """Game module"""
 
+import logging
 from random import shuffle
 from typing import List, Optional
 
@@ -11,13 +12,11 @@ class Game:
     """Game class"""
 
     def __init__(self) -> None:
-        self._deck_a = Deck("A")
-        self._deck_b = Deck("B")
+        self._all_cards = self._create_cards()
+        shuffle(self._all_cards)
 
-        self._cards = self._create_cards()
-        self._shuffle_cards()
-        self._deck_a.add_cards(self._cards[0::2])
-        self._deck_b.add_cards(self._cards[1::2])
+        self._deck_a = Deck("A", self._all_cards[0::2])
+        self._deck_b = Deck("B", self._all_cards[1::2])
 
         self._number_of_turns = 0
         self._a_won = None  # type: Optional[bool]
@@ -30,11 +29,6 @@ class Game:
                 cards.append(Card(figure, color))
         return cards
 
-    def _shuffle_cards(self):
-        # print(self._cards)
-        shuffle(self._cards)
-        # print(self._cards)
-
     # class TurnResult(Enum):
     #     A_WINS, B_WINS, DRAW = range(3)
 
@@ -42,10 +36,10 @@ class Game:
         card_a = self._deck_a.take_next_card()
         card_b = self._deck_b.take_next_card()
 
-        if card_a.get_strength() > card_b.get_strength():
+        if card_a > card_b:
             self._deck_a.add_cards([card_a, card_b])
             return True
-        if card_a.get_strength() < card_b.get_strength():
+        if card_a < card_b:
             self._deck_b.add_cards([card_b, card_a])
             return False
         # it's draw!
@@ -63,24 +57,24 @@ class Game:
         """Performs game and returns number of turns."""
         while True:
             self._number_of_turns += 1
-            print("Starting turn {} A={} B={}".format(self._number_of_turns,
-                                                      self._deck_a.get_card_number(),
-                                                      self._deck_b.get_card_number()))
-            try:
-                self._perform_turn_if_a_wins()
-            except IndexError:
-                break
             # if self._number_of_turns > 59990:
             #     print(self._deck_a)
             #     print(self._deck_b)
             if self._number_of_turns == 10000:
                 break
+            logging.debug("Starting turn %s A=%s B=%s", self._number_of_turns,
+                          self._deck_a.get_cards_number(), self._deck_b.get_cards_number())
+            try:
+                self._perform_turn_if_a_wins()
+            except IndexError:
+                break
+
         # print(self._deck_a)
         # print(self._deck_b)
         print("Finished with {} A={} B={}".format(self._number_of_turns,
-                                                  self._deck_a.get_card_number(),
-                                                  self._deck_b.get_card_number()))
-        if self._deck_a.get_card_number() == 0:
+                                                  self._deck_a.get_cards_number(),
+                                                  self._deck_b.get_cards_number()))
+        if self._deck_a.get_cards_number() == 0:
             self._a_won = False
         else:
             self._a_won = True

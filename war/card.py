@@ -1,5 +1,6 @@
 """Single card module"""
 
+import logging
 from enum import Enum
 
 
@@ -8,10 +9,10 @@ class Card:
 
     class Color(Enum):
         """Colors enum class."""
-        Spades = 0  # pik / wino
-        Hearts = 7  # serce / czeriweń
-        Clubs = 14  # trefl / zołądź
-        Diamonds = 21  # karo / dzwonek
+        Spades = 1  # pik / wino
+        Hearts = 2  # serce / czeriweń
+        Clubs = 3  # trefl / zołądź
+        Diamonds = 4  # karo / dzwonek
 
     class Figure(Enum):
         """Figures enum class."""
@@ -34,12 +35,24 @@ class Card:
         assert figure in Card.FigureToStrength.keys()
         self._strength = Card.FigureToStrength[figure]
 
-        self._id = figure.value + color.value
-        # print(self)
+        self._id = figure.value + 100 * color.value
+        logging.debug("Created %s", self)
 
     def __str__(self):
         return("Card: id:{:2} strength:{:2} {:20} {}".
                format(self._id, self._strength, repr(self._color), repr(self._figure)))
+
+    def __eq__(self, other):
+        assert isinstance(other, self.__class__)
+        return self._id == other.get_id()
+
+    def __lt__(self, other):
+        assert isinstance(other, self.__class__)
+        return self._strength < other.get_strength()
+
+    def __gt__(self, other):
+        assert isinstance(other, self.__class__)
+        return self._strength > other.get_strength()
 
     def get_strength(self) -> int:
         """Card strength."""
