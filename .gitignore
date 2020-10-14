@@ -1,5 +1,7 @@
 */__pycache__/*
+python39
 venv
 .coverage
 .dmypy.json
 .idea
+.pytest_cache

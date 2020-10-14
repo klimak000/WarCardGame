@@ -94,5 +94,8 @@ class Game:
 
         if self._deck_a.get_cards_number() == 0:
             self._result = Game.Result.A_WON
-        else:
+        elif self._deck_b.get_cards_number() == 0:
             self._result = Game.Result.B_WON
+        else:
+            assert False
+        return self._result, self._number_of_turns
