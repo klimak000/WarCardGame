@@ -21,13 +21,13 @@ class Deck:
         return text
 
     def add_cards(self, cards: List[Card]):
-        """Add cards to deck."""
+        """Add (to end) cards to deck."""
         for card in cards:
             assert card not in self._cards
             self._cards.append(card)
 
     def take_next_card(self) -> Card:
-        """Take (remove and get) card from deck."""
+        """Take (remove and get) first card from deck."""
         card = self._cards[0]
         self._cards.remove(card)
         return card

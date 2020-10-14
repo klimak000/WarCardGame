@@ -4,7 +4,8 @@ from war.card import Card
 
 
 def testing_creation_instance():
-    Card(Card.Figure.As, Card.Color.Hearts)
+    card = Card(Card.Figure.As, Card.Color.Hearts)
+    str(card)
 
 
 def testing_generating_id():

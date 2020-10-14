@@ -16,6 +16,7 @@ def _create_instance():
 
 def test_creation_instance():
     deck = _create_instance()
+    str(deck)
     assert deck.take_next_card().get_id() == _get_card_example().get_id()
 
 

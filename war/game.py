@@ -1,8 +1,9 @@
 """Game module"""
 
 import logging
+from enum import Enum
 from random import shuffle
-from typing import List, Optional
+from typing import List, Tuple
 
 from war.card import Card
 from war.deck import Deck
@@ -18,8 +19,8 @@ class Game:
         self._deck_a = Deck("A", self._all_cards[0::2])
         self._deck_b = Deck("B", self._all_cards[1::2])
 
+        self._result = Game.Result.NOT_FINISHED
         self._number_of_turns = 0
-        self._a_won = None  # type: Optional[bool]
 
     @staticmethod
     def _create_cards() -> List[Card]:
@@ -29,8 +30,9 @@ class Game:
                 cards.append(Card(figure, color))
         return cards
 
-    # class TurnResult(Enum):
-    #     A_WINS, B_WINS, DRAW = range(3)
+    def get_decks(self) -> Tuple[Deck, Deck]:
+        """Returns created decks."""
+        return self._deck_a, self._deck_b
 
     def _perform_turn_if_a_wins(self) -> bool:
         card_a = self._deck_a.take_next_card()
@@ -52,35 +54,45 @@ class Game:
         self._deck_b.add_cards([card_b_bis, card_a_bis, card_b, card_a])
         return False
 
+    class Result(Enum):
+        """Battle results."""
+        A_WON, B_WON, TIMEOUT, NOT_FINISHED = range(4)
 
-    def perform_game(self) -> int:
+    TIMEOUT_TURN_THRESHOLD = 10000
+
+    def perform_game(self) -> Tuple[Result, int]:
         """Performs game and returns number of turns."""
         while True:
             self._number_of_turns += 1
-            # if self._number_of_turns > 59990:
-            #     print(self._deck_a)
-            #     print(self._deck_b)
-            if self._number_of_turns == 10000:
-                break
             logging.debug("Starting turn %s A=%s B=%s", self._number_of_turns,
                           self._deck_a.get_cards_number(), self._deck_b.get_cards_number())
+            self._debug_stalled_games()
+            if self._number_of_turns == Game.TIMEOUT_TURN_THRESHOLD:
+                break
             try:
                 self._perform_turn_if_a_wins()
             except IndexError:
                 break
 
-        # print(self._deck_a)
-        # print(self._deck_b)
+        return self._gather_results()
+
+    def _debug_stalled_games(self) -> None:
+        pass
+        # if self._number_of_turns > Game.TIMEOUT_TURN_THRESHOLD - 10:
+        #     print(self._deck_a)
+        #     print(self._deck_b)
+
+    def _gather_results(self) -> Tuple[Result, int]:
         print("Finished with {} A={} B={}".format(self._number_of_turns,
                                                   self._deck_a.get_cards_number(),
                                                   self._deck_b.get_cards_number()))
-        if self._deck_a.get_cards_number() == 0:
-            self._a_won = False
-        else:
-            self._a_won = True
-        return self._number_of_turns
+        # print(self._deck_a)
+        # print(self._deck_b)
+        if self._number_of_turns == Game.TIMEOUT_TURN_THRESHOLD:
+            self._result = Game.Result.TIMEOUT
+            return self._result, self._number_of_turns
 
-    def get_if_a_won(self) -> bool:
-        """Get info if A wins."""
-        assert self._a_won is not None
-        return self._a_won
+        if self._deck_a.get_cards_number() == 0:
+            self._result = Game.Result.A_WON
+        else:
+            self._result = Game.Result.B_WON
