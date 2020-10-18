@@ -26,3 +26,8 @@ def testing_comparing_cards_strength():
     assert king > queen
     assert not queen > king  # pylint: disable=C0113
     assert not king < queen  # pylint: disable=C0113
+
+
+def test_reading_cards_strength():
+    for figure in Card.Figure:
+        assert isinstance(Card.FigureToStrength[figure], int)
