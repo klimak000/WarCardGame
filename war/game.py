@@ -34,6 +34,11 @@ class Game:
                 cards.append(Card(figure, color))
         return cards
 
+    def set_custom_decks(self, deck_a: Deck, deck_b: Deck) -> None:
+        """Change created decks to custom decks."""
+        self._deck_a = deck_a
+        self._deck_b = deck_b
+
     def get_decks(self) -> Tuple[Deck, Deck]:
         """Returns created decks."""
         return self._deck_a, self._deck_b
