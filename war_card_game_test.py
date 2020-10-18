@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """ Testing module."""
 
 from war.game import Game
