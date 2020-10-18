@@ -7,13 +7,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="WarCardGame",
-    version="0.2.2",
+    version="0.2.3",
     author="Kamil Grula",
     author_email="kamilgrula@gmail.com",
     description="War - card game",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/TODO",
+    url="https://github.com/klimak000/WarCardGame",
     packages=setuptools.find_packages(),
     install_requires=['pylint', 'mypy', 'pytest', 'pytest-cov'],
     classifiers=[
