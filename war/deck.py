@@ -15,7 +15,7 @@ class Deck:
         logging.debug("Created %s", self)
 
     def __str__(self) -> str:
-        text = "Deck {}, number of cards is {}\n".format(self._name, self.get_cards_number())
+        text = "Deck {}, number of cards is {}\n".format(self._name, len(self))
         for card in self._cards:
             text += '{}\n'.format(card)
         return text
@@ -32,6 +32,6 @@ class Deck:
         self._cards.remove(card)
         return card
 
-    def get_cards_number(self) -> int:
+    def __len__(self) -> int:
         """Returns number of cards in deck."""
         return len(self._cards)

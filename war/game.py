@@ -44,7 +44,22 @@ class Game:
         return self._deck_a, self._deck_b
 
     def _perform_duel(self) -> Result:
-        """Perform single duel .
+        """Perform single duel.
+
+        Order of returning cards to deck has big importance.
+        Read README for more information.
+        Function puts back cards to deck in order:
+            normal duel:
+                1 winner card
+                2 loser card
+            duel with playoff:
+                1 winner card from second duel
+                2 loser card from second duel
+                3 winner hidden card
+                4 loser hidden card
+                5 winner card from first duel
+                6 loser card from first duel
+
         Returns:
             Result: A_WON if player a won, B_WON otherwise.
         """
@@ -77,7 +92,7 @@ class Game:
         """
         self._number_of_turns += 1
         logging.debug("Starting turn %s A=%s B=%s", self._number_of_turns,
-                      self._deck_a.get_cards_number(), self._deck_b.get_cards_number())
+                      len(self._deck_a), len(self._deck_b))
         try:
             self._perform_duel()
         except IndexError:  # one of deck is out of cards, game is finished
@@ -104,18 +119,18 @@ class Game:
 
     def _gather_results(self) -> Tuple[Result, int]:
         logging.info("Finished with %d A=%d B=%d", self._number_of_turns,
-                     self._deck_a.get_cards_number(), self._deck_b.get_cards_number())
+                     len(self._deck_a), len(self._deck_b))
         if self._result == Game.Result.TIMEOUT:
             return self._result, self._number_of_turns
 
-        a_number = self._deck_a.get_cards_number()
-        b_number = self._deck_b.get_cards_number()
+        a_number = len(self._deck_a)
+        b_number = len(self._deck_b)
 
         if a_number == 0:
             assert b_number != 0
-            self._result = Game.Result.A_WON
+            self._result = Game.Result.B_WON
             return self._result, self._number_of_turns
 
         assert a_number != 0 and b_number == 0
-        self._result = Game.Result.B_WON
+        self._result = Game.Result.A_WON
         return self._result, self._number_of_turns

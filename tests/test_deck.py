@@ -22,13 +22,13 @@ def test_creation_instance() -> None:
 
 def test_adding_card() -> None:
     deck = _create_instance()
-    assert deck.get_cards_number() == 1
+    assert len(deck) == 1
     deck.add_cards([Card(Card.Figure.As, Card.Color.Clubs)])
-    assert deck.get_cards_number() == 2
+    assert len(deck) == 2
 
 
 def test_against_adding_existing_card() -> None:
     deck = _create_instance()
-    assert deck.get_cards_number() == 1
+    assert len(deck) == 1
     with pytest.raises(AssertionError):
         deck.add_cards([_get_card_example()])
