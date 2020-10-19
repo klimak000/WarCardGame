@@ -1,48 +1,84 @@
 #!/usr/bin/env python
 
-""" Testing module."""
+"""Testing module."""
+
+import logging
+from argparse import ArgumentParser
+from typing import List
 
 from war.game import Game
 
 
-def _test2():
-    unfinished = 0
-    broken = 0
-    a_wins = 0
-    b_wins = 0
-    numbers = []
+# TODO fix mypy scanning
+class WarCardGameTest:
+    """Testing class."""
 
-    for _ in range(1000):
-        game = Game()
-        result, number = game.perform_game()
+    def __init__(self) -> None:
+        self._tests_number = 0
+        self.unfinished = 0
+        self.broken = 0
+        self.a_wins = 0
+        self.b_wins = 0
+        self.numbers = []  # type: List[int]
+        self._average_turns_number = -1
 
-        if result == Game.Result.TIMEOUT:
-            unfinished += 1
-            continue
-        if result == Game.Result.NOT_FINISHED:
-            broken += 1
-            continue
+        self._setup_argparse()
 
-        if result == Game.Result.A_WON:
-            a_wins += 1
-        elif result == Game.Result.B_WON:
-            b_wins += 1
-        else:
-            assert False
-        numbers.append(number)
+    def get_result(self):
+        """Get main result of the test."""
+        return self._average_turns_number
 
-    numbers.sort()
-    print(numbers)
-    print("{} / {} = {}".format(sum(numbers), len(numbers),
-                                sum(numbers) / len(numbers)))
-    print("min {} max {}".format(min(numbers), max(numbers)))
-    print("A:{} B:{} TO:{} B:{}".format(a_wins, b_wins, unfinished, broken))
+    def _setup_argparse(self) -> None:
+        parser = ArgumentParser()
+        parser.add_argument(
+            "--log",
+            default=logging.INFO,
+            type=lambda x: getattr(logging, x),
+            help="Configure the logging level.")
+        parser.add_argument(
+            "--number",
+            default=1000,
+            type=int,
+            help="Setup number of generated games.")
 
+        args = parser.parse_args()
+        logging.basicConfig(level=args.log)
+        self._tests_number = args.number
 
-def main():
-    """The application's main entry point."""
-    _test2()
+    def _test(self):
+        """Main test."""
+        for _ in range(self._tests_number):
+            game = Game()
+            result, number = game.perform_game()
+
+            if result == Game.Result.TIMEOUT:
+                self.unfinished += 1
+                continue
+            if result == Game.Result.NOT_FINISHED:
+                self.broken += 1
+                continue
+
+            if result == Game.Result.A_WON:
+                self.a_wins += 1
+            elif result == Game.Result.B_WON:
+                self.b_wins += 1
+            else:
+                assert False
+            self.numbers.append(number)
+
+        self.numbers.sort()
+        self._average_turns_number = sum(self.numbers) / len(self.numbers)
+
+        logging.info(self.numbers)
+        logging.info("%i / %i = %i", sum(self.numbers), len(self.numbers),
+                     self._average_turns_number)
+        logging.info("min %i max %i", min(self.numbers), max(self.numbers))
+        logging.info("A:%i B:%i TO:%i B:%i", self.a_wins, self.b_wins, self.unfinished, self.broken)
+
+    def main(self) -> None:
+        """The application's main entry point."""
+        self._test()
 
 
 if __name__ == "__main__":
-    main()
+    WarCardGameTest().main()

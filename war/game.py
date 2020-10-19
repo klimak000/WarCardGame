@@ -103,9 +103,8 @@ class Game:
         return False
 
     def _gather_results(self) -> Tuple[Result, int]:
-        print("Finished with {} A={} B={}".format(self._number_of_turns,
-                                                  self._deck_a.get_cards_number(),
-                                                  self._deck_b.get_cards_number()))
+        logging.info("Finished with %d A=%d B=%d", self._number_of_turns,
+                     self._deck_a.get_cards_number(), self._deck_b.get_cards_number())
         if self._result == Game.Result.TIMEOUT:
             return self._result, self._number_of_turns
 

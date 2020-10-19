@@ -30,6 +30,7 @@ def testing_winning_game_by_both_players():
     assert result == Game.Result.A_WON
     assert turns == 2
 
+    # TODO fix test
     game = Game()
     game.set_custom_decks(_get_loser(), _get_winner())
     result, turns = game.perform_game()
