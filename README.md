@@ -22,7 +22,7 @@ Original output:
 
 Tested `100000` games.
 Average number of turns is `59`.
-Minimum and maximum number of turns in game were `3` and `467`.
+Minimum and maximum number of turns in game were `2` and `463`.
 `A player` win ratio was `50.03%`, and `B player` was `49.96%`
 
 ## Tested at 0.2.2
