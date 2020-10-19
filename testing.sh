@@ -10,4 +10,4 @@ pylint war setup.py war_card_game_test.py
 pylint tests --disable=C0116
 
 echo "MYPY:"
-mypy .
+mypy --strict .

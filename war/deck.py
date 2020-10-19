@@ -14,13 +14,13 @@ class Deck:
         self._cards = cards  # type: List[Card]
         logging.debug("Created %s", self)
 
-    def __str__(self):
+    def __str__(self) -> str:
         text = "Deck {}, number of cards is {}\n".format(self._name, self.get_cards_number())
         for card in self._cards:
             text += '{}\n'.format(card)
         return text
 
-    def add_cards(self, cards: List[Card]):
+    def add_cards(self, cards: List[Card]) -> None:
         """Add (to end) cards to deck."""
         for card in cards:
             assert card not in self._cards

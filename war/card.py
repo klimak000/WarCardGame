@@ -35,22 +35,22 @@ class Card:
         assert figure in Card.FigureToStrength.keys()
         self._strength = Card.FigureToStrength[figure]
 
-        self._id = figure.value + 100 * color.value
+        self._id = figure.value + 100 * color.value  # type: int
         logging.debug("Created %s", self)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return("Card: id:{:2} strength:{:2} {:20} {}".
                format(self._id, self._strength, repr(self._color), repr(self._figure)))
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         assert isinstance(other, self.__class__)
         return self._id == other.get_id()
 
-    def __lt__(self, other):
+    def __lt__(self, other: object) -> bool:
         assert isinstance(other, self.__class__)
         return self._strength < other.get_strength()
 
-    def __gt__(self, other):
+    def __gt__(self, other: object) -> bool:
         assert isinstance(other, self.__class__)
         return self._strength > other.get_strength()
 
@@ -58,6 +58,6 @@ class Card:
         """Card strength."""
         return self._strength
 
-    def get_id(self):
+    def get_id(self) -> int:
         """Card unique id."""
         return self._id

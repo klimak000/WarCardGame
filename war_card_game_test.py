@@ -9,7 +9,6 @@ from typing import List
 from war.game import Game
 
 
-# TODO fix mypy scanning
 class WarCardGameTest:
     """Testing class."""
 
@@ -20,11 +19,11 @@ class WarCardGameTest:
         self.a_wins = 0
         self.b_wins = 0
         self.numbers = []  # type: List[int]
-        self._average_turns_number = -1
+        self._average_turns_number = -1.0
 
         self._setup_argparse()
 
-    def get_result(self):
+    def get_result(self) -> float:
         """Get main result of the test."""
         return self._average_turns_number
 
@@ -33,7 +32,7 @@ class WarCardGameTest:
         parser.add_argument(
             "--log",
             default=logging.INFO,
-            type=lambda x: getattr(logging, x),
+            type=lambda x: getattr(logging, x),  # type: ignore
             help="Configure the logging level.")
         parser.add_argument(
             "--number",
@@ -45,7 +44,7 @@ class WarCardGameTest:
         logging.basicConfig(level=args.log)
         self._tests_number = args.number
 
-    def _test(self):
+    def _test(self) -> None:
         """Main test."""
         for _ in range(self._tests_number):
             game = Game()

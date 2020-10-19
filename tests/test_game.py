@@ -7,17 +7,17 @@ from war.deck import Deck
 from war.game import Game
 
 
-def testing_creation_instance():
+def testing_creation_instance() -> None:
     game = Game()
     deck_a, deck_b = game.get_decks()
     assert deck_a.get_cards_number() == deck_b.get_cards_number()
 
 
-def testing_performing_random_game():
+def testing_performing_random_game() -> None:
     Game().perform_game()
 
 
-def testing_winning_game_by_both_players():
+def testing_winning_game_by_both_players() -> None:
     def _get_winner() -> Deck:
         return Deck("Winner", [Card(Card.Figure.Queen, Card.Color.Hearts)])
 
@@ -38,7 +38,7 @@ def testing_winning_game_by_both_players():
     assert turns == 2
 
 
-def testing_exiting_stalled_games():
+def testing_exiting_stalled_games() -> None:
     game = Game()
     with patch.object(Game, '_perform_duel', return_value=None):
         result, turns = game.perform_game()

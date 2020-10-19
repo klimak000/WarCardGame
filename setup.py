@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="WarCardGame",
-    version="0.3.2",
+    version="0.3.3",
     author="Kamil Grula",
     author_email="kamilgrula@gmail.com",
     description="War - card game",
