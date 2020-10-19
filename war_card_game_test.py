@@ -69,7 +69,7 @@ class WarCardGameTest:
         self._average_turns_number = sum(self.numbers) / len(self.numbers)
 
         logging.info(self.numbers)
-        logging.info("%i / %i = %i", sum(self.numbers), len(self.numbers),
+        logging.info("%i / %i = %f", sum(self.numbers), len(self.numbers),
                      self._average_turns_number)
         logging.info("min %i max %i", min(self.numbers), max(self.numbers))
         logging.info("A:%i B:%i TO:%i B:%i", self.a_wins, self.b_wins, self.unfinished, self.broken)

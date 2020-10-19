@@ -11,6 +11,20 @@ Package `WarCardGame` simulates and generates number of turns needed to complete
 
 # Last results
 
+## Tested at 0.4.0
+
+Original output:
+
+    INFO:root:5926734 / 100000 = 59
+    INFO:root:min 2 max 463
+    INFO:root:A:50030 B:49970 TO:0 B:0
+
+
+Tested `100000` games.
+Average number of turns is `59`.
+Minimum and maximum number of turns in game were `3` and `467`.
+`A player` win ratio was `50.03%`, and `B player` was `49.96%`
+
 ## Tested at 0.2.2
 
 Original output:
